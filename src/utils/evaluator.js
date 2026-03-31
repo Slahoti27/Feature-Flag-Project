@@ -10,7 +10,15 @@ export function hashUser(userId) {
 export function isFeatureEnabled(flag, userId) {
   if (!flag.is_enabled) return false;
 
-  const hash = hashUser(userId);
+  if (
+    flag.target_users &&
+    Array.isArray(flag.target_users) &&
+    flag.target_users.includes(userId)
+  ) {
+    return true;
+  }
 
+  // Percentage rollout
+  const hash = hashUser(userId);
   return hash % 100 < flag.rollout_percentage;
 }

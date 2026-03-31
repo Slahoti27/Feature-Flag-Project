@@ -24,6 +24,14 @@ export const FeatureFlag = sequelize.define('FeatureFlag', {
     type: DataTypes.INTEGER,
     defaultValue: 0,
   },
+  target_users: {
+    type: DataTypes.JSON,
+    defaultValue: [],
+  },
+  environment: {
+    type: DataTypes.STRING,
+    defaultValue: 'dev',
+    },
 }, {
   timestamps: true,
 });

@@ -1,8 +1,10 @@
 import express from 'express';
 import { sequelize } from './config/db.js';
-import { FeatureFlag } from './models/featureFlag.js';
 import flagRoutes from './routes/flag.js';
 import cors from 'cors';
+import { connectRedis } from './config/redis.js';
+
+await connectRedis();
 
 const app = express();
 
@@ -21,7 +23,7 @@ sequelize.authenticate()
   .then(async () => {
     console.log('Database connected...');
 
-    await sequelize.sync();
+    await sequelize.sync({ alter: true });
     console.log('Tables synced...');
 
     app.listen(PORT, () => {
